@@ -11,6 +11,7 @@ from rest_framework import status
 from rest_framework import viewsets
 
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 
 # Serializers module from serializers.py
 from apis import serializers
@@ -120,4 +121,7 @@ class UserProfileViewSets(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     # Permissions to do something
     permission_classes = (permissions.UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)
+    # Tells the filter backend which fields are searchable
+    search_fields = ('name', 'email')
 
