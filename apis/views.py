@@ -12,6 +12,8 @@ from rest_framework import viewsets
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 # Serializers module from serializers.py
 from apis import serializers
@@ -125,3 +127,7 @@ class UserProfileViewSets(viewsets.ModelViewSet):
     # Tells the filter backend which fields are searchable
     search_fields = ('name', 'email')
 
+# User login API VIEW
+class UserLoginApiView(ObtainAuthToken):
+    """Handling creating User auth tokens"""
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
