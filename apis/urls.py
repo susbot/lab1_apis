@@ -10,6 +10,7 @@ router = DefaultRouter()
 # 3rd argument - basename used for retrieving URLS in Router
 router.register('hello-viewset', views.HelloViewSet, basename='hello-viewset')
 router.register('profile', views.UserProfileViewSets)
+router.register('feed', views.UserProfileFeedViewSet)
 
 urlpatterns = [
     path('hello-view/', views.HelloApiView.as_view()),

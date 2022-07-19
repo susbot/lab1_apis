@@ -14,6 +14,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
+from rest_framework.permissions import IsAuthenticated
+
 
 # Serializers module from serializers.py
 from apis import serializers
@@ -127,7 +129,25 @@ class UserProfileViewSets(viewsets.ModelViewSet):
     # Tells the filter backend which fields are searchable
     search_fields = ('name', 'email')
 
+
 # User login API VIEW
 class UserLoginApiView(ObtainAuthToken):
     """Handling creating User auth tokens"""
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+
+# Basic model view set for CRUD
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Handles CRUD Profile feed items"""
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedItemSerializer
+    queryset = models.ProfileFeedItem.objects.all()
+    permission_classes = (
+        permissions.UpdateOwnStatus,
+        IsAuthenticated
+    )
+
+    def perform_create(self, serializer):
+        """Sets the user profile to the logged in user"""
+        # Handy feature to over right create objects of the ViewSet
+        serializer.save(user_profile=self.request.user)

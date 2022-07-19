@@ -8,3 +8,4 @@ from apis import models
 
 # Register models
 admin.site.register(models.UserProfile)
+admin.site.register(models.ProfileFeedItem)
